@@ -2,6 +2,26 @@ const express = require('express');
 
 const app = express();
 
+const Post = require('./models/Post')
+const User = require('./models/User')
+const Comment = require('./models/Comment')
+
+// DB avec Sequelize
+const { Sequelize } = require('sequelize');
+
+// Option 2: Passing parameters separately (other dialects)
+const sequelize = new Sequelize('groupomania', 'root', '', {
+  host: 'localhost',
+  dialect: 'mariadb',
+});
+
+try {
+    sequelize.authenticate();
+    console.log('Connection to database has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+
 // CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,7 +30,22 @@ app.use((req, res, next) => {
     next();
   });
 
+app.post('/api/post', (req, res, next) => {
+    // // DB
+    // const post = await Post.create({
+    //   ...req.body
+    // });
+
+
+    ///
+    console.log(req.body);
+    res.status(201).json({
+      message: 'Objet créé !'
+    });
+  });
+
 app.use('/api/posts',(req, res) => {
+    // const posts = Post.findAll();
    const posts = [
     {
       id: 1,
