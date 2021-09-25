@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('mariadb::memory:');
+const sequelize = require('../db');
 
 const User = sequelize.define('User', {
   // Model attributes are defined here
@@ -21,6 +21,6 @@ const User = sequelize.define('User', {
 });
 
 // `sequelize.define` also returns the model
-console.log(User === sequelize.models.User); // true
+// console.log(User === sequelize.models.User); // true
 
-module.exports = sequelize.models.User;
+module.exports = User;

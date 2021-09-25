@@ -3,7 +3,8 @@ const router = express.Router();
 
 const postsCtrl = require('../controllers/posts')
 
-router.post('/api/post', postsCtrl.createPost);
-router.get('/api/posts', postsCtrl.getAllPosts);
+router.post('/', postsCtrl.createPost);
+router.get('/', postsCtrl.getAllPosts);
+router.delete('/:id', postsCtrl.deletePost);
 
 module.exports = router;

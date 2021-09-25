@@ -1,22 +1,18 @@
 const express = require('express');
 const app = express();
 
+const sequelize = require('./db');
 
-// DB avec Sequelize
-const { Sequelize } = require('sequelize');
-
-// Option 2: Passing parameters separately (other dialects)
-const sequelize = new Sequelize('groupomania', 'root', '', {
-  host: 'localhost',
-  dialect: 'mariadb',
-});
-
-try {
-    sequelize.authenticate();
-    console.log('Connection to database has been established successfully.');
+async function test() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection to database: success.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
+}
+
+test();
 
 // CORS
 app.use((req, res, next) => {
@@ -30,8 +26,10 @@ const postsRoutes = require('./routes/posts');
 const commentsRoutes = require('./routes/comments');
 const usersRoutes = require('./routes/users');
 
+app.use(express.json());
+
 app.use('/api/posts', postsRoutes);
-app.use('/api/posts', commentsRoutes);
-app.use('/api/posts', usersRoutes);
+app.use('/api/comments', commentsRoutes);
+app.use('/api/users', usersRoutes);
 
 module.exports = app;

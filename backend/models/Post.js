@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('mariadb::memory:');
+const sequelize = require('../db');
 
 const Post = sequelize.define('Post', {
   // Model attributes are defined here
@@ -17,7 +17,7 @@ const Post = sequelize.define('Post', {
     allowNull: false
   },
   date: {
-    type: DataTypes.DATEONLY,
+    type: DataTypes.STRING(8),
     allowNull: false
   },
   hour: {
@@ -29,6 +29,6 @@ const Post = sequelize.define('Post', {
 });
 
 // `sequelize.define` also returns the model
-console.log(Post === sequelize.models.Post); // true
+// console.log(Post === sequelize.models.Post); // true
 
-module.exports = sequelize.models.Post;
+module.exports = Post;

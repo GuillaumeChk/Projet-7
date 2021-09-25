@@ -1,23 +1,37 @@
-
+const sequelize = require('../db');
 const Post = require('../models/Post');
+const Comment = require('../models/Comment');
 
-exports.createPost = (req, res, next) => {
-    // // DB
-    // const post = await Post.create({
-    //   ...req.body
-    // });
+exports.createPost = async (req, res, next) => {
+  const post = await Post.create({
+    ...req.body
+  });
+  post.save()
+    .then(() => { res.status(201).json({
+      message: 'Post saved successfully!'
+    });})
+    .catch((error) => { res.status(400).json({ error: error });});
+};
 
+exports.deletePost = async (req, res, next) => {
+  await Post.destroy({
+    where: {
+      id: req.params.id
+    }
+  });
 
-    ///
-    console.log(req.body);
-    res.status(201).json({
-      message: 'Objet créé !'
-    });
-  };
+  // Supprime également tous les commentaires de ce post
+  await Comment.destroy({
+    where: {
+      postId: req.params.id
+    }
+  })
+};
 
-exports.getAllPosts = (req, res) => {
-    // const posts = Post.findAll();
-   const posts = [
+exports.getAllPosts = async (req, res, next) => {
+    const posts = await Post.findAll();
+   /*
+    const posts = [
     {
       id: 1,
       user: 'Jean Dupont',
@@ -47,5 +61,6 @@ exports.getAllPosts = (req, res) => {
       hour: '14:46'
     },
   ];
+  */
   res.status(200).json(posts);
 };
