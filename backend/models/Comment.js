@@ -6,6 +6,7 @@ const Comment = sequelize.define('Comment', {
   id: {
     type: DataTypes.INTEGER(255),
     allowNull: false,
+    autoIncrement: true,
     primaryKey: true
   },
   postId: {
