@@ -31,12 +31,15 @@ exports.login = async (req, res, next) => {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
           res.status(200).json({
-            userName: user.name,
             userId: user.id,
             // userMail: req.body.mail,
             token: jwt.sign(
-              { userId: user.id },
-              'RANDOM_TOKEN_SECRET',
+              { 
+                userId: user.id, 
+                userName: user.name,
+                isAdmin: user.isAdmin,
+              },
+              process.env.ACCESS_TOKEN_SECRET,
               { expiresIn: '24h' }
             )
           });

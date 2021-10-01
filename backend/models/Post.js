@@ -15,7 +15,11 @@ const Post = sequelize.define('Post', {
   },
   text: {
     type: DataTypes.TEXT,
-    allowNull: false
+    allowNull: true
+  },
+  imageUrl: {
+    type: DataTypes.STRING(100),
+    allowNull: true
   },
   date: {
     type: DataTypes.STRING(8),
