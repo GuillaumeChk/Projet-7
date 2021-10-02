@@ -33,11 +33,12 @@ exports.login = async (req, res, next) => {
           res.status(200).json({
             userId: user.id,
             // userMail: req.body.mail,
+            userName: user.name,
+            isAdmin: user.isAdmin,
             token: jwt.sign(
               { 
                 userId: user.id, 
                 userName: user.name,
-                isAdmin: user.isAdmin,
               },
               process.env.ACCESS_TOKEN_SECRET,
               { expiresIn: '24h' }
@@ -49,23 +50,17 @@ exports.login = async (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-// exports.getAllUsers = (req, res) => {
-//     const users = [
-//         {
-//           name: 'Jean Dupont',
-//           mail: 'jeand@mail.fr',
-//           password: 'jeanjean1'
-//         },
-//         {
-//           name: 'Bertrand Jacquard',
-//           mail: 'bertj@mail.fr',
-//           password: 'bertbert2'
-//         },
-//         {
-//           name: 'Cyril Bob',
-//           mail: 'cyrib@mail.fr',
-//           password: 'cyricyri3'
-//         }
-//     ];
-//     res.status(200).json(users);
-// };
+exports.deleteAccount = async (req, res, next) => {
+  console.log("avant destroy")
+  await User.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+  // user.save()
+  //   .then(() => res.status(201).json({ message: 'Utilisateur supprimé !' }))
+  //   .catch(error => res.status(400).json({ error }));
+  console.log("apres destroy")
+
+  // destroy ses posts et comments
+};
